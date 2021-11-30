@@ -6,6 +6,8 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -25,7 +27,7 @@ public class YutBoard extends JFrame{
 	
 	
 	//최상위 jFrame
-	private JFrame BoardFrame;
+	public static JFrame BoardFrame;
 	//윷놀이판 영역 jPanel
 	private JPanel yutBoardPanel;
 	//윷 영역 jPanel
@@ -47,18 +49,14 @@ public class YutBoard extends JFrame{
 	//(요소) 작은 원
 	ImageIcon smallCircle = new ImageIcon("../img/smallCircle.png");
 	
-
-	
-	
-	
-		
+			
 	
 	public YutBoard() {
 		BoardFrame = new JFrame();
 		BoardFrame.setTitle("Card Of Yut");
 		//(좌측) 윷놀이판 영역
 		yutBoardPanel = new JPanel() {
-			Image background=new ImageIcon(YutBoard.class.getResource("../img/lineGroup.png")).getImage();
+			Image background=new ImageIcon(YutBoard.class.getResource("../img/yutpan.png")).getImage();
 			public void paint(Graphics g) {
 				g.drawImage(background, 0, 0, null);
 			}
@@ -97,6 +95,9 @@ public class YutBoard extends JFrame{
 		throwYut = new JButton("윷 던지기");
 		throwYut = createBoardBtn(throwYut,WIDTH/20*9,WIDTH/20*10,WIDTH/20*3,WIDTH/20,true);
 		throwYut.setBackground(new Color(255,255,0));
+		throwYut.addActionListener(e->{
+			rule r = new rule();
+		});
 		rightArea.add(throwYut);
 		
 		//말 선택 버튼
@@ -119,6 +120,13 @@ public class YutBoard extends JFrame{
 		BoardFrame.add(yutBoardPanel);
 		BoardFrame.add(YutPanel);
 		BoardFrame.add(rightArea);
+		
+	
+	}
+	
+	public void paint(Graphics g,Image yut) {// 그리는 함수
+		g.drawImage(yut, 0, 0, null);// background를 그려줌
+		System.out.println("paint()");
 	}
 	
 	JButton createBoardBtn(JButton btn, int x, int y, int width, int depth, boolean tf)
