@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 
 public class rule extends JFrame {
+	int isYut;
 	public void homeframe() {
 		setTitle("1");// 창의 타이틀
 		setTitle("1");
@@ -27,7 +28,7 @@ public class rule extends JFrame {
 	public Image randomYut() {
 		Image background;
 		String imgUrl = "../img/";
-		int isYut = (int) (Math.random() * 6);
+		isYut = (int) (Math.random() * 6);
 		switch (isYut) {
 		case 1:
 			imgUrl += "do.png";
@@ -64,8 +65,20 @@ public class rule extends JFrame {
 	public void paint(Graphics g) {
 		super.paint(g);
 		System.out.println("호출됨");
-		
-		
 	}
-	
+	public int getIsYut() {
+		switch (isYut) {
+		case 1:
+			return 1;
+		case 2:
+			return 2;
+		case 3:
+			return 3;
+		case 4:
+			return 4;
+		case 5:
+			return 5;
+		}
+		return 0;
+	}
 }
