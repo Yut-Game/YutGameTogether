@@ -8,6 +8,8 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -18,119 +20,119 @@ import javax.swing.JToggleButton;
 
 public class YutBoard extends JFrame{
 
-	//°ÔÀÓ Ã¢ Å©±â
+	//ê²Œì„ ì°½ í¬ê¸°
 	public static final int WIDTH = 900;
 	public static final int HEIGHT = 800;
-	//À·³îÀÌÆÇ Å©±â
+	//ìœ·ë†€ì´íŒ í¬ê¸°
 	public final int BOARD_WIDTH = (int) (WIDTH*0.61);
 	public final int BOARD_HEIGHT = (int) (HEIGHT*0.69);
 	
 	
-	//ÃÖ»óÀ§ jFrame
+	//ìµœìƒìœ„ jFrame
 	public static JFrame BoardFrame;
-	//À·³îÀÌÆÇ ¿µ¿ª jPanel
+	//ìœ·ë†€ì´íŒ ì˜ì—­ jPanel
 	private JPanel yutBoardPanel;
-	//À· ¿µ¿ª jPanel
+	//ìœ· ì˜ì—­ jPanel
 	private JPanel YutPanel;
-	//¿ìÃø ¿µ¿ª jPanel
+	//ìš°ì¸¡ ì˜ì—­ jPanel
 	private JPanel rightArea;	
-	//(¿ìÃø) »ç¿ëÀÚ1 »óÅÂ
+	//(ìš°ì¸¡) ì‚¬ìš©ì1 ìƒíƒœ
 	private JLabel userOneProgress;
-	//(¿ìÃø) »ç¿ëÀÚ2 »óÅÂ
+	//(ìš°ì¸¡) ì‚¬ìš©ì2 ìƒíƒœ
 	private JLabel userTwoProgress;
-	//(¿ìÃø) À·´øÁö±â ¹öÆ°
+	//(ìš°ì¸¡) ìœ·ë˜ì§€ê¸° ë²„íŠ¼
 	private JButton throwYut;
-	//(¿ìÃø) ¸» ÀÌµ¿ ¼±ÅÃÁö ¹öÆ°
+	//(ìš°ì¸¡) ë§ ì´ë™ ì„ íƒì§€ ë²„íŠ¼
 	private JButton[] movingMal;
 	
-	
-	//(¿ä¼Ò) Å« ¿ø
+	private Image yut;
+	//(ìš”ì†Œ) í° ì›
 	ImageIcon bigCircle = new ImageIcon("../img/bigCircle.png");
-	//(¿ä¼Ò) ÀÛÀº ¿ø
+	//(ìš”ì†Œ) ì‘ì€ ì›
 	ImageIcon smallCircle = new ImageIcon("../img/smallCircle.png");
+
+
 	
-			
+	
 	
 	public YutBoard() {
 		BoardFrame = new JFrame();
 		BoardFrame.setTitle("Card Of Yut");
-		//(ÁÂÃø) À·³îÀÌÆÇ ¿µ¿ª
+		//(ì¢Œì¸¡) ìœ·ë†€ì´íŒ ì˜ì—­
 		yutBoardPanel = new JPanel() {
 			Image background=new ImageIcon(YutBoard.class.getResource("../img/yutpan.png")).getImage();
 			public void paint(Graphics g) {
 				g.drawImage(background, 0, 0, null);
 			}
 		};
-		//(ÁÂÃø) À· ¿µ¿ª
+
+		//(ì¢Œì¸¡) ìœ· ì˜ì—­
 		YutPanel = new JPanel();
-		//¿ìÃø ¿µ¿ª jPanel
+		//ìš°ì¸¡ ì˜ì—­ jPanel
 		rightArea = new JPanel();		
-		//(¿ìÃø) »ç¿ëÀÚ1 »óÅÂ
-		userOneProgress = new JLabel("»ç¿ëÀÚ 1 ³²Àº ¸» ¼ö Ç¥½Ã");
-		//(¿ìÃø) »ç¿ëÀÚ2 »óÅÂ
-		userTwoProgress = new JLabel("»ç¿ëÀÚ 2 ³²Àº ¸» ¼ö Ç¥½Ã");
-		//(¿ìÃø) ¸» ÀÌµ¿ ¼±ÅÃÁö ¹öÆ°
+		//(ìš°ì¸¡) ì‚¬ìš©ì1 ìƒíƒœ
+		userOneProgress = new JLabel("ì‚¬ìš©ì 1 ë‚¨ì€ ë§ ìˆ˜ í‘œì‹œ");
+		//(ìš°ì¸¡) ì‚¬ìš©ì2 ìƒíƒœ
+		userTwoProgress = new JLabel("ì‚¬ìš©ì 2 ë‚¨ì€ ë§ ìˆ˜ í‘œì‹œ");
+		//(ìš°ì¸¡) ë§ ì´ë™ ì„ íƒì§€ ë²„íŠ¼
 		movingMal = new JButton[3];
 		
-		//test
-		JButton button = new JButton(bigCircle); 
-		button.setBorderPainted(false);
-		button.setFocusPainted(false);
-		button.setContentAreaFilled(false);
-		yutBoardPanel.add(button); 		
 		
-		//(·¹ÀÌ¾Æ¿ô ±¸¼º) À·³îÀÌÆÇ, À· ¹èÄ¡
+		//(ë ˆì´ì•„ì›ƒ êµ¬ì„±) ìœ·ë†€ì´íŒ, ìœ· ë°°ì¹˜
 		yutBoardPanel.setBounds(10,10,BOARD_WIDTH,BOARD_HEIGHT);
 		yutBoardPanel.setBackground(Color.WHITE);
 		YutPanel.setBounds(10, BOARD_HEIGHT+20, BOARD_WIDTH, HEIGHT-BOARD_HEIGHT-70);
 		YutPanel.setBackground(Color.WHITE);
 		rightArea.setBounds(BOARD_WIDTH+20, 10, WIDTH-BOARD_WIDTH-50,  HEIGHT-60);
 		rightArea.setBackground(Color.WHITE);
-		//(·¹ÀÌ¾Æ¿ô ±¸¼º) »ç¿ëÀÚ »óÅÂ, À· ¹öÆ° ¹èÄ¡
+		//(ë ˆì´ì•„ì›ƒ êµ¬ì„±) ì‚¬ìš©ì ìƒíƒœ, ìœ· ë²„íŠ¼ ë°°ì¹˜
 		rightArea.add(userOneProgress);
 		rightArea.add(userTwoProgress);
 		
 		
-		//À· ´øÁö±â ¹öÆ°
-		throwYut = new JButton("À· ´øÁö±â");
+		//ìœ· ë˜ì§€ê¸° ë²„íŠ¼
+		throwYut = new JButton("ìœ· ë˜ì§€ê¸°");
 		throwYut = createBoardBtn(throwYut,WIDTH/20*9,WIDTH/20*10,WIDTH/20*3,WIDTH/20,true);
 		throwYut.setBackground(new Color(255,255,0));
 		throwYut.addActionListener(e->{
+			System.out.println("ë²„íŠ¼ ëˆŒë¦¼");
 			rule r = new rule();
+			yut = r.randomYut();
+			System.out.println(yut);
+			repaint();
 		});
 		rightArea.add(throwYut);
 		
-		//¸» ¼±ÅÃ ¹öÆ°
+		//ë§ ì„ íƒ ë²„íŠ¼
 		for(int i=0;i<3;i++) {
-			movingMal[i] = new JButton((i+1)+"¹ø ¸» ÀÌµ¿");
+			movingMal[i] = new JButton((i+1)+"ë²ˆ ë§ ì´ë™");
 			movingMal[i] = createBoardBtn(movingMal[i],WIDTH/20*9,WIDTH/20*10,WIDTH/20*3,WIDTH/20,true);
 			movingMal[i].setBackground(new Color(255,255,0));
 			rightArea.add(movingMal[i]);
 		}
-
-
-		//ÃÖ»óÀ§ jFrame ±âº» ¼³Á¤
+		//ìµœìƒìœ„ jFrame ê¸°ë³¸ ì„¤ì •
 		BoardFrame.setLayout(null);
 		BoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		BoardFrame.setLocationRelativeTo(null);
 		BoardFrame.setSize(WIDTH, HEIGHT);
 		BoardFrame.setResizable(false);
 		BoardFrame.setVisible(true);
-		
 		BoardFrame.add(yutBoardPanel);
 		BoardFrame.add(YutPanel);
 		BoardFrame.add(rightArea);
-		
-	
 	}
 	
-	public void paint(Graphics g,Image yut) {// ±×¸®´Â ÇÔ¼ö
-		g.drawImage(yut, 0, 0, null);// background¸¦ ±×·ÁÁÜ
-		System.out.println("paint()");
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		System.out.println(yut);
+		g.drawOval(50,100,50,50);
+		g.drawImage(yut,5,572,null);
+		g.setColor(Color.blue);
+		g.fillOval(100,100,50,50);
 	}
 	
-	JButton createBoardBtn(JButton btn, int x, int y, int width, int depth, boolean tf)
-	{
+	JButton createBoardBtn(JButton btn, int x, int y, int width, int depth, boolean tf) {
 		btn.setSize(width, depth);
 		btn.setBorderPainted(tf);
 		btn.setContentAreaFilled(tf);
@@ -138,9 +140,15 @@ public class YutBoard extends JFrame{
 		return btn;
 	}
 	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		new YutBoard();
+	public void mgps() {
+		BoardFrame.addMouseMotionListener(new MouseAdapter() { // ë§ˆìš°ìŠ¤ ì´ë²¤íŠ¸ 
+			@Override 
+			public void mouseMoved(MouseEvent e) { // ë§ˆìš°ìŠ¤ ì›€ì§ì¼ë•Œ. 
+				System.out.println(e.getX()+" "+e.getY());//xì¢Œí‘œ,yì¢Œí‘œ ì¶œë ¥
+			} 
+		});
 	}
-
+	public JPanel getRightArea(){
+		return rightArea;
+	}
 }

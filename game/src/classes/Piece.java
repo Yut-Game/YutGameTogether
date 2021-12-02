@@ -13,8 +13,9 @@ public class Piece {
 	// ÆÇ À§Ä¡
 	int location;
 	
-	public Piece(int i, int n){
+	public Piece(int i, int n, int loc){
 		i = teamInfo;
 		n = pNum;
+		location = loc;
 	}
 }

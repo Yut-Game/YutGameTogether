@@ -59,4 +59,13 @@ public class rule extends JFrame {
 		// Àµ - 3
 		// ¸ð - 4
 	}
+	
+	@Override
+	public void paint(Graphics g) {
+		super.paint(g);
+		System.out.println("È£ÃâµÊ");
+		
+		
+	}
+	
 }
