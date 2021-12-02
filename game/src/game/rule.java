@@ -24,8 +24,8 @@ public class rule extends JFrame {
 		setVisible(true);// 창이 보이게
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// JFrame이 정상적으로 종료되게
 	}	
-	public Image randomYut() {
-		Image background;
+	public ImageIcon randomYut() {
+		ImageIcon background;
 		String imgUrl = "../img/";
 		int isYut = (int) (Math.random() * 6);
 		switch (isYut) {
@@ -45,7 +45,7 @@ public class rule extends JFrame {
 			imgUrl += "mo.png";
 			break;
 		}
-		background = new ImageIcon(rule.class.getResource(imgUrl)).getImage();
+		background = new ImageIcon(rule.class.getResource(imgUrl));
 		
 		return background;
 	}
