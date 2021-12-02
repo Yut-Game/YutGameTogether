@@ -34,6 +34,9 @@ public class YutBoard extends JFrame{
 	private JPanel yutBoardPanel;
 	//윷 영역 jPanel
 	private JPanel YutPanel;
+	//윷 jLabel
+	private JLabel yutArea;
+	
 	//우측 영역 jPanel
 	private JPanel rightArea;	
 	//(우측) 사용자1 상태
@@ -43,9 +46,9 @@ public class YutBoard extends JFrame{
 	//(우측) 윷던지기 버튼
 	private JButton throwYut;
 	//(우측) 말 이동 선택지 버튼
-	private JButton[] movingMal;
+	private JButton addMal;
 	
-	private Image yut;
+	private ImageIcon yut;
 	//(요소) 큰 원
 	ImageIcon bigCircle = new ImageIcon("../img/bigCircle.png");
 	//(요소) 작은 원
@@ -68,6 +71,7 @@ public class YutBoard extends JFrame{
 
 		//(좌측) 윷 영역
 		YutPanel = new JPanel();
+		yutArea = new JLabel();
 		//우측 영역 jPanel
 		rightArea = new JPanel();		
 		//(우측) 사용자1 상태
@@ -75,41 +79,45 @@ public class YutBoard extends JFrame{
 		//(우측) 사용자2 상태
 		userTwoProgress = new JLabel("사용자 2 남은 말 수 표시");
 		//(우측) 말 이동 선택지 버튼
-		movingMal = new JButton[3];
+		addMal = new JButton();
 		
 		
 		//(레이아웃 구성) 윷놀이판, 윷 배치
+		yutBoardPanel.setLayout(null);
 		yutBoardPanel.setBounds(10,10,BOARD_WIDTH,BOARD_HEIGHT);
 		yutBoardPanel.setBackground(Color.WHITE);
 		YutPanel.setBounds(10, BOARD_HEIGHT+20, BOARD_WIDTH, HEIGHT-BOARD_HEIGHT-70);
 		YutPanel.setBackground(Color.WHITE);
+		rightArea.setLayout(null);
 		rightArea.setBounds(BOARD_WIDTH+20, 10, WIDTH-BOARD_WIDTH-50,  HEIGHT-60);
 		rightArea.setBackground(Color.WHITE);
 		//(레이아웃 구성) 사용자 상태, 윷 버튼 배치
+		userOneProgress.setBounds(80, 10, 150, 50);
+		userTwoProgress.setBounds(80, 110, 150, 50);
 		rightArea.add(userOneProgress);
 		rightArea.add(userTwoProgress);
+		YutPanel.add(yutArea);
 		
 		
 		//윷 던지기 버튼
 		throwYut = new JButton("윷 던지기");
-		throwYut = createBoardBtn(throwYut,WIDTH/20*9,WIDTH/20*10,WIDTH/20*3,WIDTH/20,true);
 		throwYut.setBackground(new Color(255,255,0));
 		throwYut.addActionListener(e->{
 			System.out.println("버튼 눌림");
 			rule r = new rule();
 			yut = r.randomYut();
 			System.out.println(yut);
+			yutArea.setIcon(yut);
 			repaint();
 		});
+		throwYut.setBounds(100, 450, 100, 30);
 		rightArea.add(throwYut);
 		
-		//말 선택 버튼
-		for(int i=0;i<3;i++) {
-			movingMal[i] = new JButton((i+1)+"번 말 이동");
-			movingMal[i] = createBoardBtn(movingMal[i],WIDTH/20*9,WIDTH/20*10,WIDTH/20*3,WIDTH/20,true);
-			movingMal[i].setBackground(new Color(255,255,0));
-			rightArea.add(movingMal[i]);
-		}
+		//말 추가 버튼
+		addMal = new JButton("말 추가하기");
+		addMal.setBackground(new Color(255,255,0));
+		addMal.setBounds(100, 500, 100, 30);
+		rightArea.add(addMal);
 		//최상위 jFrame 기본 설정
 		BoardFrame.setLayout(null);
 		BoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -122,23 +130,6 @@ public class YutBoard extends JFrame{
 		BoardFrame.add(rightArea);
 	}
 	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		System.out.println(yut);
-		g.drawOval(50,100,50,50);
-		g.drawImage(yut,5,572,null);
-		g.setColor(Color.blue);
-		g.fillOval(100,100,50,50);
-	}
-	
-	JButton createBoardBtn(JButton btn, int x, int y, int width, int depth, boolean tf) {
-		btn.setSize(width, depth);
-		btn.setBorderPainted(tf);
-		btn.setContentAreaFilled(tf);
-		btn.setLocation(x,y);
-		return btn;
-	}
 	
 	public void mgps() {
 		BoardFrame.addMouseMotionListener(new MouseAdapter() { // 마우스 이벤트 
