@@ -60,25 +60,31 @@ public class rule extends JFrame {
 		return 0;
 	}
 	
+	// 큰 원에 위치했는지
 	public int checkBigOne(int location) {
 		if(location == 5) {
 			bigOne = true;
 			return 24;
 		}
-		else if(location == 10)  return 19;
+		else if(location == 10)  {
+			bigOne = true; return 19;
+		}
 		else if(location == 27) location = 22;
 		return location;
 	}
+	// 마지막 줄에 위치했는지
 	public int checkRutin(int location, int move) {
-		int total = location + move;
-		if(total > 29) return location - 15;
+		if(location + move > 29) return location - 15;
 		return location;
 	}
+	// 큰 원에서 백도가 나왔을 때 처리
 	public int checkBigOneBack(int loc) {
+		if(loc == 0) return 20;
 		if(loc == 24) return 5;
 		if(loc == 19) return 10;
 		return loc;
 	}
+	// 결승점에 도착했는지
 	public int checkFinish(int loc, int move) {
 		if(bigOne) {
 			bigOne = false;

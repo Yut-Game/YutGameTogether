@@ -58,17 +58,10 @@ public class PlayGame {
 				p1P[pN].setState(0);
 
 			location = p1P[pN].getLocation();
-			//조건 체크 1 - 왼쪽 사선에 있는 말인지 
-			location = rule.checkRutin(location, move);
-			//조건 체크 2 - 큰 원에 위치한 말인지
-			location = rule.checkBigOne(location);
-			finish = rule.checkFinish(location, move);
-			if(finish == 1) {
+			location = checking(location, move);
+			if(location == -2) {
 				System.out.println("말 끝");
 				return new int[] {485,480};
-			}
-			if(move == -1) {
-				location = rule.checkBigOneBack(location);
 			}
 			System.out.println("location : " + location);
 			// 현재 로케이션에 이동할 만큼 더하기
@@ -112,5 +105,22 @@ public class PlayGame {
 			comment.setText("player 2의 차례입니다.");
 		rightA.add(comment);
 		piece.disableBtn(nowTurn);
+	}
+	
+	// 조건 체크
+	public static int checking(int location, int move) {
+		//조건 체크 1 - 왼쪽 사선에 있는 말인지 
+		location = rule.checkRutin(location, move);
+		//조건 체크 2 - 큰 원에 위치한 말인지
+		location = rule.checkBigOne(location);
+		//조건 체크 3 - 결승점에 도달했는지
+		int finish = rule.checkFinish(location, move);
+		//조건 체크 4 - 큰 원에 백도인지
+		if(move == -1) {
+			location = rule.checkBigOneBack(location);
+		}
+		if(finish == 1) location = -2;
+		
+		return location;
 	}
 }
