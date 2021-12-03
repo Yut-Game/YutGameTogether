@@ -53,21 +53,10 @@ public class rule extends JFrame {
 
 	public static void main(String[] args) {
 		new rule();
-		// »ªµµ -1
-		// µµ - 0
-		// °³ - 1
-		// °É - 2
-		// Àµ - 3
-		// ¸ð - 4
-	}
-	
-	@Override
-	public void paint(Graphics g) {
-		super.paint(g);
-		System.out.println("È£ÃâµÊ");
 	}
 	public int getIsYut() {
 		switch (isYut) {
+		case 0: return -1;
 		case 1:
 			return 1;
 		case 2:
