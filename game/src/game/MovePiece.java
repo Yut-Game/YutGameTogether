@@ -10,7 +10,6 @@ import javax.swing.JPanel;
 public class MovePiece {
 	static JPanel rightA;
 	static JPanel yutBoard;
-	static int nowTurn;
 	private static JButton p1P0;
 	private static JButton p1P1;
 	private static JButton p1P2;
@@ -22,10 +21,9 @@ public class MovePiece {
 	static int hmMove = 0;
 	static PlayGame obj = new PlayGame();
 	
-	public MovePiece(JPanel rightA, JPanel board, int turn){
+	public MovePiece(JPanel rightA, JPanel board){
 		this.rightA = rightA;
 		this.yutBoard = board;
-		this.nowTurn = turn;
 	}
 	
 	public MovePiece(int hm){
@@ -115,6 +113,7 @@ public class MovePiece {
 		yutBoard.add(btn);
 		hmMove = 0;
 	}
+	// 버튼 비활성화
 	public static void disableBtn(int nowTurn) {
 		if(nowTurn == 1)
 		{

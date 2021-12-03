@@ -19,10 +19,10 @@ public class PlayGame {
 	static JPanel yutBoard;
 	static JLabel comment;
 	static int nowTurn = 1;
-	
+
 	static YutBoardPoint point = new YutBoardPoint();
 	static MovePiece piece;
-	
+
 	// 플레이어 말
 	static Piece[] p1P = new Piece[3];
 	static Piece[] p2P = new Piece[3];
@@ -35,13 +35,12 @@ public class PlayGame {
 		rightA = board.getRightArea();
 		yutBoard = board.getYutBoard();
 		comment = board.getComment();
-		piece = new MovePiece(rightA, yutBoard, nowTurn);
+		piece = new MovePiece(rightA, yutBoard);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
 			p2P[i] = new Piece(2, i, 0);
 		}
 
-		
 		piece.createBtn();
 		piece.clickBtn();
 		turnComment();
@@ -50,7 +49,7 @@ public class PlayGame {
 	public static int[] pieceState(int pN, int move) {
 		int location = 0;
 		// 말 상태 받아오기
-		if(nowTurn == 1) {
+		if (nowTurn == 1) {
 			int state = p1P[pN].getState();
 			// 출발 전 말이라면 state 바꾸기
 			if (state == -1)
@@ -61,8 +60,7 @@ public class PlayGame {
 			// 현재 로케이션에 이동할 만큼 더하기
 			location += move;
 			p1P[pN].setLocation(location);
-		}
-		else {
+		} else {
 			int state = p2P[pN].getState();
 			if (state == -1)
 				p2P[pN].setState(0);
@@ -81,18 +79,21 @@ public class PlayGame {
 		turnComment();
 		return new int[] { x, y };
 	}
-	
-	//턴 변경
+
+	// 턴 변경
 	public static void turn() {
-		if(nowTurn == 1) nowTurn = 2;
-		else nowTurn = 1;
+		if (nowTurn == 1)
+			nowTurn = 2;
+		else
+			nowTurn = 1;
 	}
-	//턴 코멘트
+
+	// 턴 코멘트
 	public static void turnComment() {
-		if(nowTurn == 1) {
+		if (nowTurn == 1) {
 			comment.setText("player 1의 차례입니다.");
-		}
-		else comment.setText("player 2의 차례입니다.");
+		} else
+			comment.setText("player 2의 차례입니다.");
 		rightA.add(comment);
 		piece.disableBtn(nowTurn);
 	}
