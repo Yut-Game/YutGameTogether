@@ -133,4 +133,13 @@ public class MovePiece {
 			p2P2.setEnabled(true);
 		}
 	}
+	// 전체 버튼 비활성화
+	public static void disableAllBtn() {
+		p1P0.setEnabled(false);
+		p1P1.setEnabled(false);
+		p1P2.setEnabled(false);
+		p2P0.setEnabled(false);
+		p2P1.setEnabled(false);
+		p2P2.setEnabled(false);
+	}
 }

@@ -18,6 +18,7 @@ public class PlayGame {
 	static JPanel rightA;
 	static JPanel yutBoard;
 	static JLabel comment;
+	static JButton throwBtn;
 	static int nowTurn = 1;
 
 	static YutBoardPoint point = new YutBoardPoint();
@@ -36,6 +37,11 @@ public class PlayGame {
 		rightA = board.getRightArea();
 		yutBoard = board.getYutBoard();
 		comment = board.getComment();
+		throwBtn = board.getThrowBtn();
+		//좌표 조정 ( btn size 30 - 30 )
+		for(int i=0;i<YutBoardPoint.points.length;i++) {
+			YutBoardPoint.points[i].addCordinate(-11,-10);
+		}
 		piece = new MovePiece(rightA, yutBoard);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
@@ -45,6 +51,9 @@ public class PlayGame {
 		piece.createBtn();
 		piece.clickBtn();
 		turnComment();
+
+		// 말 비활성화
+		piece.disableAllBtn();
 	}
 
 	public static int[] pieceState(int pN, int move) {
@@ -86,6 +95,7 @@ public class PlayGame {
 		int y = point.points[location].getY();
 		turn();
 		turnComment();
+		//piece.disableAllBtn();
 		return new int[] { x, y };
 	}
 
@@ -104,7 +114,7 @@ public class PlayGame {
 		} else
 			comment.setText("player 2의 차례입니다.");
 		rightA.add(comment);
-		piece.disableBtn(nowTurn);
+		piece.disableAllBtn();
 	}
 	
 	// 조건 체크

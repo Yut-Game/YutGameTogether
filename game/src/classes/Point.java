@@ -18,5 +18,10 @@ public class Point {
 		return y;
 	}
 	
+	public void addCordinate(int x,int y) {
+		this.x += x;
+		this.y += y;
+	}
+	
 	
 }

@@ -46,8 +46,6 @@ public class YutBoard extends JFrame {
 	private JLabel comment;
 	// (우측) 윷던지기 버튼
 	private JButton throwYut;
-	// (우측) 말 이동 선택지 버튼
-	private JButton addMal;
 
 	private ImageIcon yut;
 	// (요소) 큰 원
@@ -77,7 +75,6 @@ public class YutBoard extends JFrame {
 		// (우측) 사용자2 상태
 		userTwoProgress = new JLabel("사용자 2 남은 말 수 표시");
 		// (우측) 말 이동 선택지 버튼
-		addMal = new JButton();
 		comment = new JLabel("코멘트");
 
 		// (레이아웃 구성) 윷놀이판, 윷 배치
@@ -110,15 +107,12 @@ public class YutBoard extends JFrame {
 			repaint();
 			int hm = r.getIsYut();
 			MovePiece mp = new MovePiece(hm);
+			// 윷 던진 이후 버튼 활성화
+			mp.disableBtn(PlayGame.nowTurn);
 		});
 		throwYut.setBounds(100, 450, 100, 30);
 		rightArea.add(throwYut);
 
-		// 말 추가 버튼
-		addMal = new JButton("말 추가하기");
-		addMal.setBackground(new Color(255, 255, 0));
-		addMal.setBounds(100, 500, 100, 30);
-		rightArea.add(addMal);
 		// 최상위 jFrame 기본 설정
 		BoardFrame.setLayout(null);
 		BoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -149,5 +143,8 @@ public class YutBoard extends JFrame {
 	}
 	public JLabel getComment() {
 		return comment;
+	}
+	public JButton getThrowBtn() {
+		return throwYut;
 	}
 }
