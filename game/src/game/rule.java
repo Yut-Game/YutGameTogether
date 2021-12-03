@@ -21,6 +21,9 @@ public class rule extends JFrame {
 		String imgUrl = "../img/";
 		isYut = (int) (Math.random() * 6);
 		switch (isYut) {
+		case 0:
+			imgUrl += "backdo.png";
+			break;
 		case 1:
 			imgUrl += "do.png";
 			break;
