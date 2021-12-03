@@ -73,7 +73,7 @@ public class PlayGame {
 				p2P[pN].setState(0);
 
 			location = p2P[pN].getLocation();
-			location = rule.checkBigOne(location);
+			location = checking(location, move);
 			
 			System.out.println("location : " + location);
 			location += move;
@@ -84,7 +84,7 @@ public class PlayGame {
 		// 이동한 번호가 큰 원일 때 등 조건 처리
 		int x = point.points[location].getX();
 		int y = point.points[location].getY();
-//		turn();
+		turn();
 		turnComment();
 		return new int[] { x, y };
 	}
