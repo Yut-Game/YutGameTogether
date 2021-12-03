@@ -21,6 +21,7 @@ public class PlayGame {
 	static int nowTurn = 1;
 
 	static YutBoardPoint point = new YutBoardPoint();
+	static rule rule = new rule();
 	static MovePiece piece;
 
 	// 플레이어 말
@@ -48,6 +49,7 @@ public class PlayGame {
 
 	public static int[] pieceState(int pN, int move) {
 		int location = 0;
+		int finish = 0;
 		// 말 상태 받아오기
 		if (nowTurn == 1) {
 			int state = p1P[pN].getState();
@@ -56,6 +58,18 @@ public class PlayGame {
 				p1P[pN].setState(0);
 
 			location = p1P[pN].getLocation();
+			//조건 체크 1 - 왼쪽 사선에 있는 말인지 
+			location = rule.checkRutin(location, move);
+			//조건 체크 2 - 큰 원에 위치한 말인지
+			location = rule.checkBigOne(location);
+			finish = rule.checkFinish(location, move);
+			if(finish == 1) {
+				System.out.println("말 끝");
+				return new int[] {485,480};
+			}
+			if(move == -1) {
+				location = rule.checkBigOneBack(location);
+			}
 			System.out.println("location : " + location);
 			// 현재 로케이션에 이동할 만큼 더하기
 			location += move;
@@ -66,6 +80,8 @@ public class PlayGame {
 				p2P[pN].setState(0);
 
 			location = p2P[pN].getLocation();
+			location = rule.checkBigOne(location);
+			
 			System.out.println("location : " + location);
 			location += move;
 			p2P[pN].setLocation(location);
@@ -75,7 +91,7 @@ public class PlayGame {
 		// 이동한 번호가 큰 원일 때 등 조건 처리
 		int x = point.points[location].getX();
 		int y = point.points[location].getY();
-		turn();
+//		turn();
 		turnComment();
 		return new int[] { x, y };
 	}

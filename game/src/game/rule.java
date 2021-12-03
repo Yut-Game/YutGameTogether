@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 public class rule extends JFrame {
 	int isYut;
+	boolean bigOne = false;
 
 	public ImageIcon randomYut() {
 		ImageIcon background;
@@ -59,4 +60,39 @@ public class rule extends JFrame {
 		return 0;
 	}
 	
+	public int checkBigOne(int location) {
+		if(location == 5) {
+			bigOne = true;
+			return 24;
+		}
+		else if(location == 10)  return 19;
+		else if(location == 27) location = 22;
+		return location;
+	}
+	public int checkRutin(int location, int move) {
+		int total = location + move;
+		if(total > 29) return location - 15;
+		return location;
+	}
+	public int checkBigOneBack(int loc) {
+		if(loc == 24) return 5;
+		if(loc == 19) return 10;
+		return loc;
+	}
+	public int checkFinish(int loc, int move) {
+		if(bigOne) {
+			bigOne = false;
+			return 0;
+		}
+		int total = loc + move;
+		if(15 <= loc && loc <= 19) {
+			if(20 <= total && total <= 24) return 1;
+			else return 00;
+		}
+		else if(19 <= loc && loc <= 24) {
+			if(25 <= total && total <= 29) return 1;
+			else return 0;
+		}
+		return 0;
+	}
 }
