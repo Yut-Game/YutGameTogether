@@ -95,7 +95,6 @@ public class PlayGame {
 		int y = point.points[location].getY();
 		turn();
 		turnComment();
-		//piece.disableAllBtn();
 		return new int[] { x, y };
 	}
 

@@ -112,6 +112,7 @@ public class MovePiece {
 		btn.setBounds(xy[0], xy[1], 30, 30);
 		yutBoard.add(btn);
 		hmMove = 0;
+		PlayGame.throwBtn.setEnabled(true);
 	}
 	// 버튼 비활성화
 	public static void disableBtn(int nowTurn) {

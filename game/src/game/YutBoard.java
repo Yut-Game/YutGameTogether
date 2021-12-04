@@ -35,6 +35,8 @@ public class YutBoard extends JFrame {
 	private JPanel YutPanel;
 	// 윷 jLabel
 	private JLabel yutArea;
+	// 이전 윷 jLabel
+	private JLabel preYutArea;
 
 	// 우측 영역 jPanel
 	private JPanel rightArea;
@@ -47,11 +49,11 @@ public class YutBoard extends JFrame {
 	// (우측) 윷던지기 버튼
 	private JButton throwYut;
 
+	// (윷 영역) 현재 윷 
 	private ImageIcon yut;
-	// (요소) 큰 원
-	ImageIcon bigCircle = new ImageIcon("../img/bigCircle.png");
-	// (요소) 작은 원
-	ImageIcon smallCircle = new ImageIcon("../img/smallCircle.png");
+	// (윷 영역) 이전 윷 
+	private ImageIcon preYut;
+	
 
 	public YutBoard() {
 		BoardFrame = new JFrame();
@@ -68,6 +70,7 @@ public class YutBoard extends JFrame {
 		// (좌측) 윷 영역
 		YutPanel = new JPanel();
 		yutArea = new JLabel();
+		preYutArea = new JLabel();
 		// 우측 영역 jPanel
 		rightArea = new JPanel();
 		// (우측) 사용자1 상태
@@ -90,9 +93,11 @@ public class YutBoard extends JFrame {
 		userOneProgress.setBounds(80, 10, 150, 50);
 		userTwoProgress.setBounds(80, 110, 150, 50);
 		comment.setBounds(80, 200, 150, 50);
+		preYutArea.setBounds(95, 500, 200, 90);
 		rightArea.add(userOneProgress);
 		rightArea.add(userTwoProgress);
 		rightArea.add(comment);
+		rightArea.add(preYutArea);
 		YutPanel.add(yutArea);
 
 		// 윷 던지기 버튼
@@ -100,15 +105,16 @@ public class YutBoard extends JFrame {
 		throwYut.setBackground(new Color(255, 255, 0));
 		throwYut.addActionListener(e -> {
 			System.out.println("버튼 눌림");
+			// 현재 윷 지정
 			rule r = new rule();
 			yut = r.randomYut();
-			System.out.println(yut);
+			System.out.println("현재 윷 : "+yut);
 			yutArea.setIcon(yut);
-			repaint();
 			int hm = r.getIsYut();
 			MovePiece mp = new MovePiece(hm);
-			// 윷 던진 이후 버튼 활성화
+			// 윷 던진 이후 버튼 활성화 & 던지기 비활성화
 			mp.disableBtn(PlayGame.nowTurn);
+			throwYut.setEnabled(false);
 		});
 		throwYut.setBounds(100, 450, 100, 30);
 		rightArea.add(throwYut);
