@@ -136,6 +136,16 @@ public class MovePiece {
 		case 5: p2P2.setBounds(points[i].getX(), points[i].getY(), 30, 30);rightA.add(p2P2); break;
 		}
 	}
+	public static void hiddenPiece(int i) {
+		switch(i) {
+		case 0: p1P0.setVisible(false);rightA.add(p1P0); break;
+		case 1: p1P1.setVisible(false);rightA.add(p1P1); break;
+		case 2: p1P2.setVisible(false);rightA.add(p1P2); break;
+		case 3: p2P0.setVisible(false);rightA.add(p2P0); break;
+		case 4: p2P1.setVisible(false);rightA.add(p2P1); break;
+		case 5: p2P2.setVisible(false);rightA.add(p2P2); break;
+		}
+	}
 	
 	// 버튼 비활성화
 	public static void disableBtn(int nowTurn) {

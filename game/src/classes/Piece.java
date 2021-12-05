@@ -5,6 +5,10 @@ public class Piece {
 	int teamInfo; 
 	// 말 번호
 	int pNum; 
+	// 말 번호 변경
+	int changeNum;
+	// 업은 말 (기본 1)
+	int carry = 1;
 	// 좌표
 	int x; 
 	int y;
@@ -14,8 +18,9 @@ public class Piece {
 	int location;
 	
 	public Piece(int i, int n, int loc){
-		i = teamInfo;
-		n = pNum;
+		teamInfo= i;
+		pNum = n;
+		changeNum = n;
 		location = loc;
 	}
 	public int getState() {
@@ -30,5 +35,24 @@ public class Piece {
 	public void setLocation(int location) {
 		this.location = location;
 	}
+	public int getpNum() {
+		return pNum;
+	}
+	public void setpNum(int pNum) {
+		this.pNum = pNum;
+	}
+	public int getChangeNum() {
+		return changeNum;
+	}
+	public void setChangeNum(int changeNum) {
+		this.changeNum = changeNum;
+	}
+	public int getCarry() {
+		return carry;
+	}
+	public void setCarry(int carry) {
+		this.carry = carry;
+	}
+	
 	
 }
