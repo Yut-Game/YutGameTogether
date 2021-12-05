@@ -19,6 +19,8 @@ public class PlayGame {
 	static JPanel rightA;
 	static JPanel yutBoard;
 	static JLabel comment;
+	static JLabel player1;
+	static JLabel player2;
 	static JButton throwBtn;
 	static int nowTurn = 1;
 
@@ -39,6 +41,9 @@ public class PlayGame {
 		yutBoard = board.getYutBoard();
 		comment = board.getComment();
 		throwBtn = board.getThrowBtn();
+		player1 = board.getOnePiece();
+		player2 = board.getTwoPiece();
+		
 		// 좌표 조정 ( btn size 30 - 30 )
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
@@ -90,6 +95,7 @@ public class PlayGame {
 					comment.setText("한 번 더 던지세요");
 					rightA.add(comment);
 				}
+				playerState();
 				return new int[] { 268, 392 };
 			}
 			System.out.println("location : " + location);
@@ -129,6 +135,7 @@ public class PlayGame {
 					comment.setText("한 번 더 던지세요");
 					rightA.add(comment);
 				}
+				playerState();
 				return new int[] { 268, 392 };
 			}
 			System.out.println("location : " + location);
@@ -153,7 +160,7 @@ public class PlayGame {
 			comment.setText("한 번 더 던지세요");
 			rightA.add(comment);
 		}
-
+		playerState();
 		return new int[] { x, y };
 	}
 
@@ -173,6 +180,27 @@ public class PlayGame {
 			comment.setText("player 2의 차례입니다.");
 		rightA.add(comment);
 		piece.disableAllBtn();
+	}
+	// 턴 코멘트
+	public static void playerState() {
+		if (nowTurn == 2) {
+			int ing = p1.getIngPiece();
+			int ready = p1.getReadyPiece();
+			int finish = p1.getFinishPiece();
+			//player1.setText("[player 1 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+			player1.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+			
+			rightA.add(player1);
+		} else {
+			int ing = p2.getIngPiece();
+			int ready = p2.getReadyPiece();
+			int finish = p2.getFinishPiece();
+			//player2.setText("[player 2 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+			player2.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+			
+			rightA.add(player2);
+		}
+		
 	}
 
 	// 조건 체크
@@ -209,7 +237,8 @@ public class PlayGame {
 						p2P[i].setState(-1);
 						piece.resetPiece(i + 3);
 						return 1;
-					} else {
+					} else if(p2P[i].getCarry() > 1){
+						System.out.println("업은 말이래!!!@");
 						carryNum = p2P[i].getpNum();
 						for (int j = 0; j < 3; j++) {
 							if (p2P[j].getChangeNum() == carryNum) {
@@ -235,7 +264,8 @@ public class PlayGame {
 						p1P[i].setState(-1);
 						piece.resetPiece(i);
 						return 1;
-					} else {
+					} else if(p1P[i].getCarry() > 1){
+						System.out.println("업은 말이래!!!@");
 						carryNum = p1P[i].getpNum();
 						for (int j = 0; j < 3; j++) {
 							if (p1P[j].getChangeNum() == carryNum) {
