@@ -43,7 +43,7 @@ public class PlayGame {
 		throwBtn = board.getThrowBtn();
 		player1 = board.getOnePiece();
 		player2 = board.getTwoPiece();
-		
+
 		// 좌표 조정 ( btn size 30 - 30 )
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
@@ -52,7 +52,15 @@ public class PlayGame {
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
 			p2P[i] = new Piece(2, i, 0);
+			p1P[i].setY(65);
+			p2P[i].setY(155);
 		}
+		p1P[0].setX(65);
+		p1P[1].setX(135);
+		p1P[2].setX(190);
+		p2P[0].setX(65);
+		p2P[1].setX(135);
+		p2P[2].setX(190);
 
 		piece.createBtn();
 		piece.clickBtn();
@@ -105,6 +113,10 @@ public class PlayGame {
 			if (carry == 1)
 				p1P[pN].setCarry(p1P[pN].getCarry() + 1);
 			p1P[pN].setLocation(location);
+			int x = point.points[location].getX();
+			int y = point.points[location].getY();
+			p1P[pN].setX(x);
+			p1P[pN].setY(y);
 		} else {
 			int state = p2P[pN].getState();
 			if (state == -1) {
@@ -144,6 +156,10 @@ public class PlayGame {
 			if (carry == 1)
 				p2P[pN].setCarry(p2P[pN].getCarry() + 1);
 			p2P[pN].setLocation(location);
+			int x = point.points[location].getX();
+			int y = point.points[location].getY();
+			p2P[pN].setX(x);
+			p2P[pN].setY(y);
 		}
 		int c = catchOp(location);
 
@@ -181,26 +197,25 @@ public class PlayGame {
 		rightA.add(comment);
 		piece.disableAllBtn();
 	}
+
 	// 턴 코멘트
 	public static void playerState() {
-		if (nowTurn == 2) {
-			int ing = p1.getIngPiece();
-			int ready = p1.getReadyPiece();
-			int finish = p1.getFinishPiece();
-			//player1.setText("[player 1 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
-			player1.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
-			
-			rightA.add(player1);
-		} else {
-			int ing = p2.getIngPiece();
-			int ready = p2.getReadyPiece();
-			int finish = p2.getFinishPiece();
-			//player2.setText("[player 2 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
-			player2.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
-			
-			rightA.add(player2);
-		}
-		
+		int ing = p1.getIngPiece();
+		int ready = p1.getReadyPiece();
+		int finish = p1.getFinishPiece();
+		// player1.setText("[player 1 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing +
+		// " 도착한 말 : " + finish);
+		player1.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+
+		rightA.add(player1);
+		ing = p2.getIngPiece();
+		ready = p2.getReadyPiece();
+		finish = p2.getFinishPiece();
+		// player2.setText("[player 2 말 상태]\n 시작 전 말 : " + ready + " 진행중인 말 : " + ing +
+		// " 도착한 말 : " + finish);
+		player2.setText("시작 전 말 : " + ready + " 진행중인 말 : " + ing + " 도착한 말 : " + finish);
+
+		rightA.add(player2);
 	}
 
 	// 조건 체크
@@ -229,6 +244,7 @@ public class PlayGame {
 				if (p2P[i].getLocation() == loc) {
 					if (p2P[i].getState() == 1)
 						continue;
+					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
 					p2.setIngPiece(p2.getIngPiece() - p2P[i].getCarry());
 					p2.setReadyPiece(p2.getReadyPiece() + p2P[i].getCarry());
 					System.out.println(" 2 잡힘");
@@ -237,13 +253,16 @@ public class PlayGame {
 						p2P[i].setState(-1);
 						piece.resetPiece(i + 3);
 						return 1;
-					} else if(p2P[i].getCarry() > 1){
+					} else if (p2P[i].getCarry() > 1) {
 						System.out.println("업은 말이래!!!@");
 						carryNum = p2P[i].getpNum();
 						for (int j = 0; j < 3; j++) {
 							if (p2P[j].getChangeNum() == carryNum) {
+								System.out.println("p2P[i] : " + p2P[i].getChangeNum() + " " + j);
+								System.out.println("p2P[j] : " + p2P[j].getChangeNum() + " " + j);
 								p2P[j].setLocation(0);
 								p2P[j].setState(-1);
+								piece.visiblePiece(j + 3);
 								piece.resetPiece(j + 3);
 							}
 						}
@@ -256,21 +275,31 @@ public class PlayGame {
 				if (p1P[i].getLocation() == loc) {
 					if (p1P[i].getState() == 1)
 						continue;
+					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
 					p1.setIngPiece(p1.getIngPiece() - p1P[i].getCarry());
 					p1.setReadyPiece(p1.getReadyPiece() + p1P[i].getCarry());
-					System.out.println(" 2 잡힘");
+					System.out.println(" 1 잡힘");
 					if (p1P[i].getCarry() == 1) {
 						p1P[i].setLocation(0);
 						p1P[i].setState(-1);
 						piece.resetPiece(i);
 						return 1;
-					} else if(p1P[i].getCarry() > 1){
+						// 업은 말인 경우
+					} else if (p1P[i].getCarry() > 1) {
 						System.out.println("업은 말이래!!!@");
+						// p1P[i]가 업은 말임. 업은 말의 넘버를 carryNum으로 지정
 						carryNum = p1P[i].getpNum();
+						System.out.println("carryNum : " + carryNum);
+						// 말 수 만큼 for문 돌림
 						for (int j = 0; j < 3; j++) {
+							// p1P[j]의 변경됨 넘버가 carryNum과 같을 경우 (업힌 말인 경우 changeNum은 업은 말로 바뀜)
+							System.out.println("p1P[j].changeNum : " + p1P[j].getChangeNum());
+							System.out.println("p1P[i] : " + p1P[i].getChangeNum() + " " + j);
+							System.out.println("p1P[j] : " + p1P[j].getChangeNum() + " " + j);
 							if (p1P[j].getChangeNum() == carryNum) {
 								p1P[j].setLocation(0);
 								p1P[j].setState(-1);
+								piece.visiblePiece(j);
 								piece.resetPiece(j);
 							}
 						}
@@ -299,6 +328,8 @@ public class PlayGame {
 					if (answer == JOptionPane.YES_OPTION) { // 사용자가 yes를 눌렀을 경우
 						System.out.println("말 업겟단다.");
 						p1P[i].setChangeNum(pNum);
+						System.out.println("업은 말의 번호 : " + pNum);
+						System.out.println("업힌 말의 번호 : " + p1P[i].getChangeNum());
 						piece.hiddenPiece(i);
 						return 1;
 					} else { // 사용자가 Yes 이외의 값을 눌렀을 경우
@@ -319,7 +350,10 @@ public class PlayGame {
 							JOptionPane.YES_NO_OPTION);
 					if (answer == JOptionPane.YES_OPTION) { // 사용자가 yes를 눌렀을 경우
 						System.out.println("말 업겟단다.");
+
 						p2P[i].setChangeNum(pNum);
+						System.out.println("업은 말의 번호 : " + pNum);
+						System.out.println("업힌 말의 번호 : " + p2P[i].getChangeNum());
 						piece.hiddenPiece(i + 3);
 						return 1;
 					} else { // 사용자가 Yes 이외의 값을 눌렀을 경우
@@ -330,5 +364,20 @@ public class PlayGame {
 		}
 
 		return 0;
+	}
+
+	public static void repaintPiece() {
+		for (int i = 0; i < 3; i++) {
+			int x = p1P[i].getX();
+			int y = p1P[i].getY();
+			int p = p1P[i].getState() < 0 ? 1 : 0;
+			piece.rePaint(i, x, y, p);
+		}
+		for (int i = 0; i < 3; i++) {
+			int x = p2P[i].getX();
+			int y = p2P[i].getY();
+			int p = p2P[i].getState() < 0 ? 1 : 0;
+			piece.rePaint(i, x, y, p);
+		}
 	}
 }
