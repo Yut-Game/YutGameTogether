@@ -141,7 +141,6 @@ public class YutBoard extends JFrame {
 		BoardFrame.add(yutBoardPanel);
 		BoardFrame.add(YutPanel);
 		BoardFrame.add(rightArea);
-		BoardFrame.setAlwaysOnTop(true);
 	}
 
 	public void mgps() {
