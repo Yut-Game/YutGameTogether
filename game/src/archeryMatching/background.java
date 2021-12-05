@@ -1,5 +1,6 @@
-package juldarigi;
+package archeryMatching;
 
+import java.awt.Button;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -44,39 +45,43 @@ public class background extends JFrame implements ActionListener{
 	//하단 영역 jPanel
 	private JPanel underPanel;
 	
-	//줄다리기 이미지 영역 jLabel
+	//이미지 영역 jLabel
 	public static JLabel imgArea;
-	//당기기 버튼
-	public static JButton pullBtn;
+	public static JLabel imgGreenArea;
 	//타이머 표시
 	public static JLabel timeBar;
 	public static int timer_width = 390;
 	public static JLabel timeComment;
 
 	
+	
+	public static Button btn1;
+	public static Button btn2;
+	public static Button btn3;
+	
 	public background() {
 		X = 110;
 		//image
-		ImageIcon juldarigi = new ImageIcon(background.class.getResource("../img/minigame_juldarigi.jpg"));
+		ImageIcon backImg = new ImageIcon(background.class.getResource("../img/archeryBackground.png"));
 		ImageIcon timerImg = new ImageIcon(background.class.getResource("../img/timer.png"));
+		ImageIcon greenLight = new ImageIcon(background.class.getResource("../img/greenLight.png"));
 		//최상위 jFrame 선언
 		BoardFrame = new JFrame();
-		BoardFrame.setTitle("줄다리기");
+		BoardFrame.setTitle("과녘맞추기");
 		//게임 화면 jPanel
 		gamePanel = new JPanel();
 		upPanel = new JPanel();
 		underPanel = new JPanel();
-		//줄다리기 이미지 영역
+		//이미지 영역
 		imgArea = new JLabel();
-		//당기기 버튼
-		pullBtn = new JButton();
-		//root
-		JRootPane root = BoardFrame.getRootPane();
-		root.setDefaultButton(pullBtn);
+		imgGreenArea = new JLabel();
 		//타이머
 		timeBar = new JLabel();
-		timeComment = new JLabel("남은 시간");
-		
+		timeComment = new JLabel("POINT : 0");
+		//화살날리기 버튼
+		btn1 = new Button();
+		btn2 = new Button();
+		btn3 = new Button();
 		
 		//기본 레이아웃 구성
 		upPanel.setLayout(null);
@@ -90,20 +95,38 @@ public class background extends JFrame implements ActionListener{
 		underPanel.setBackground(Color.decode("#F5F2DF"));
 		
 		//버튼
-		pullBtn.setBackground(new Color(255, 255, 0));
-		pullBtn.setBounds(400, 100, 100, 30);
-		pullBtn.addActionListener(e -> {
-			System.out.println("버튼 눌림");
-			function.moveImage(0);
+		btn1.setBounds(162, 50, 100, 100);
+		btn1.addActionListener(e -> {
+			if(execute.answer==1) execute.addPoint();
 		});
-		pullBtn.setFocusable(true);
-		underPanel.add(pullBtn);
-		imgArea.setBounds(X, 140, 670, 300);
+		btn1.setFocusable(true);
+		underPanel.add(btn1);
+		
+		//버튼
+		btn2.setBounds(383, 50, 100, 100);
+		btn2.addActionListener(e -> {
+			if(execute.answer==2) execute.addPoint();
+		});
+		btn2.setFocusable(true);
+		underPanel.add(btn2);
+		
+		//버튼
+		btn3.setBounds(604, 50, 100, 100);
+		btn3.addActionListener(e -> {
+			if(execute.answer==3) execute.addPoint();
+		});
+		btn3.setFocusable(true);
+		underPanel.add(btn3);
+		
+		//이미지
+		imgArea.setBounds(0, 0, 865, 400);
+		imgArea.setIcon(backImg);
+		//(179,0) (398, 0) (617,0)
+		imgGreenArea.setBounds(617, 0,100,100);
+		imgGreenArea.setIcon(greenLight);
+		gamePanel.add(imgGreenArea);
 		gamePanel.add(imgArea);
 
-		//이미지 연결
-		imgArea.setIcon(juldarigi);
-		
 		
 		//타이머
 		timeComment.setBounds(400, 40,timer_width, 50);

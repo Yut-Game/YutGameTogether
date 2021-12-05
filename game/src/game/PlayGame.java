@@ -50,7 +50,15 @@ public class PlayGame {
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
 		}
+<<<<<<< HEAD
 		piece = new MovePiece(rightA, yutBoard, boardFrame);
+=======
+		// ·£´ý ¹Ì´Ï°ÔÀÓ ÁÂÇ¥ ÁöÁ¤
+		int gamePoint;
+		
+		
+		piece = new MovePiece(rightA, yutBoard);
+>>>>>>> branch 'main' of https://github.com/Yut-Game/YutGameTogether.git
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
 			p2P[i] = new Piece(2, i, 0);
