@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -17,6 +18,7 @@ public class PlayGame {
 
 	static YutBoard board;
 	static JPanel rightA;
+	static JFrame boardFrame;
 	static JPanel yutBoard;
 	static JLabel comment;
 	static JLabel player1;
@@ -39,28 +41,28 @@ public class PlayGame {
 		board = new YutBoard();
 		rightA = board.getRightArea();
 		yutBoard = board.getYutBoard();
+		boardFrame = board.getBoard();
 		comment = board.getComment();
 		throwBtn = board.getThrowBtn();
 		player1 = board.getOnePiece();
 		player2 = board.getTwoPiece();
-
 		// 좌표 조정 ( btn size 30 - 30 )
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
 		}
-		piece = new MovePiece(rightA, yutBoard);
+		piece = new MovePiece(rightA, yutBoard, boardFrame);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
 			p2P[i] = new Piece(2, i, 0);
-			p1P[i].setY(65);
-			p2P[i].setY(155);
+			p1P[i].setY(75);
+			p2P[i].setY(165);
 		}
-		p1P[0].setX(65);
-		p1P[1].setX(135);
-		p1P[2].setX(190);
-		p2P[0].setX(65);
-		p2P[1].setX(135);
-		p2P[2].setX(190);
+		p1P[0].setX(650);
+		p1P[1].setX(705);
+		p1P[2].setX(760);
+		p2P[0].setX(650);
+		p2P[1].setX(705);
+		p2P[2].setX(760);
 
 		piece.createBtn();
 		piece.clickBtn();
@@ -176,6 +178,7 @@ public class PlayGame {
 			comment.setText("한 번 더 던지세요");
 			rightA.add(comment);
 		}
+		repaintPiece();
 		playerState();
 		return new int[] { x, y };
 	}
@@ -367,17 +370,20 @@ public class PlayGame {
 	}
 
 	public static void repaintPiece() {
+		int[][] p = new int[6][6];
 		for (int i = 0; i < 3; i++) {
-			int x = p1P[i].getX();
-			int y = p1P[i].getY();
-			int p = p1P[i].getState() < 0 ? 1 : 0;
-			piece.rePaint(i, x, y, p);
+			p[i][0] = p1P[i].getX();
+			p[i][1] = p1P[i].getY();
+			System.out.println("X : " + p[i][0] + " Y : " + p[i][1]);
 		}
 		for (int i = 0; i < 3; i++) {
-			int x = p2P[i].getX();
-			int y = p2P[i].getY();
-			int p = p2P[i].getState() < 0 ? 1 : 0;
-			piece.rePaint(i, x, y, p);
+			p[i+3][0] = p2P[i].getX();
+			p[i+3][1] = p2P[i].getY();
+			System.out.println("X : " + p[i+3][0] + " Y : " + p[i+3][1]);
+			
 		}
+		piece.rePaint(p);
+		
 	}
+
 }

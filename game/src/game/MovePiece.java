@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import classes.Point;
@@ -12,6 +13,7 @@ import classes.Point;
 public class MovePiece {
 	static JPanel rightA;
 	static JPanel yutBoard;
+	static JFrame board;
 	private static JButton p1P0;
 	private static JButton p1P1;
 	private static JButton p1P2;
@@ -23,9 +25,10 @@ public class MovePiece {
 	static int hmMove = 0;
 	static PlayGame obj = new PlayGame();
 
-	public MovePiece(JPanel rightA, JPanel board) {
+	public MovePiece(JPanel rightA, JPanel board, JFrame mainBoard) {
 		this.rightA = rightA;
 		this.yutBoard = board;
+		this.board = mainBoard;
 	}
 
 	public MovePiece(int hm) {
@@ -35,8 +38,13 @@ public class MovePiece {
 	public MovePiece() {
 	}
 
-	static Point points[] = { new Point(0, 80, 65), new Point(1, 135, 65), new Point(2, 190, 65), new Point(3, 80, 155),
-			new Point(4, 135, 155), new Point(5, 190, 155) };
+	static Point points[] = { 
+			new Point(0, 650, 75), 
+			new Point(1, 705, 75), 
+			new Point(2, 760, 75), 
+			new Point(3, 650, 165),
+			new Point(4, 705, 165), 
+			new Point(5, 760, 165) };
 
 	public static void createBtn() {
 		p1P0 = new JButton();
@@ -53,19 +61,19 @@ public class MovePiece {
 		p2P1.setBackground(Color.blue);
 		p2P2.setBackground(Color.black);
 
-		p1P0.setBounds(80, 65, 30, 30);
-		p1P1.setBounds(135, 65, 30, 30);
-		p1P2.setBounds(190, 65, 30, 30);
-		p2P0.setBounds(80, 155, 30, 30);
-		p2P1.setBounds(135, 155, 30, 30);
-		p2P2.setBounds(190, 155, 30, 30);
+		p1P0.setBounds(650, 75, 30, 30);
+		p1P1.setBounds(705, 75, 30, 30);
+		p1P2.setBounds(760, 75, 30, 30);
+		p2P0.setBounds(650, 165, 30, 30);
+		p2P1.setBounds(705, 165, 30, 30);
+		p2P2.setBounds(760, 165, 30, 30);
 
-		rightA.add(p1P0);
-		rightA.add(p1P1);
-		rightA.add(p1P2);
-		rightA.add(p2P0);
-		rightA.add(p2P1);
-		rightA.add(p2P2);
+		board.add(p1P0);
+		board.add(p1P1);
+		board.add(p1P2);
+		board.add(p2P0);
+		board.add(p2P1);
+		board.add(p2P2);
 	}
 
 	public static void clickBtn() {
@@ -116,7 +124,7 @@ public class MovePiece {
 	public static void movePiece(JButton btn) {
 		int[] xy = obj.pieceState(piece, hmMove);
 		// System.out.println(xy[0] + " " + xy[1] + " " + xy[2]);
-		btn.setBounds(xy[0], xy[1], 30, 30);
+		
 		yutBoard.add(btn);
 		hmMove = 0;
 		PlayGame.throwBtn.setEnabled(true);
@@ -237,64 +245,24 @@ public class MovePiece {
 		p2P0.setEnabled(false);
 		p2P1.setEnabled(false);
 		p2P2.setEnabled(false);
+		
 	}
 
-	public static void rePaint(int i, int x, int y, int place) {
-		if (place == 0) {
-			switch (i) {
-			case 0:
-				p1P0.setBounds(x, y, 30, 30);
-				yutBoard.add(p1P0);
-				break;
-			case 1:
-				p1P1.setBounds(x, y, 30, 30);
-				yutBoard.add(p1P1);
-				break;
-			case 2:
-				p1P2.setBounds(x, y, 30, 30);
-				yutBoard.add(p1P2);
-				break;
-			case 3:
-				p2P0.setBounds(x, y, 30, 30);
-				yutBoard.add(p2P0);
-				break;
-			case 4:
-				p2P1.setBounds(x, y, 30, 30);
-				yutBoard.add(p2P1);
-				break;
-			case 5:
-				p2P2.setBounds(x, y, 30, 30);
-				yutBoard.add(p2P2);
-				break;
-			}
-		} else if (place == 1) {
-			switch (i) {
-			case 0:
-				p1P0.setBounds(x, y, 30, 30);
-				rightA.add(p1P0);
-				break;
-			case 1:
-				p1P1.setBounds(x, y, 30, 30);
-				rightA.add(p1P1);
-				break;
-			case 2:
-				p1P2.setBounds(x, y, 30, 30);
-				rightA.add(p1P2);
-				break;
-			case 3:
-				p2P0.setBounds(x, y, 30, 30);
-				rightA.add(p2P0);
-				break;
-			case 4:
-				p2P1.setBounds(x, y, 30, 30);
-				rightA.add(p2P1);
-				break;
-			case 5:
-				p2P2.setBounds(x, y, 30, 30);
-				rightA.add(p2P2);
-				break;
-			}
-		}
-
+	public static void rePaint(int[][] p) {
+		p1P0.setBounds(p[0][0], p[0][1], 30, 30);
+		p1P1.setBounds(p[1][0], p[1][1], 30, 30);
+		p1P2.setBounds(p[2][0], p[2][1], 30, 30);
+		p2P0.setBounds(p[3][0], p[3][1], 30, 30);
+		p2P1.setBounds(p[4][0], p[4][1], 30, 30);
+		p2P2.setBounds(p[5][0], p[5][1], 30, 30);
+		
+		board.add(p1P0);
+		board.add(p1P1);
+		board.add(p1P2);
+		board.add(p2P0);
+		board.add(p2P1);
+		board.add(p2P2);
+		board.revalidate();
+		board.repaint();
 	}
 }
