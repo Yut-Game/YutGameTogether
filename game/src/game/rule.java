@@ -104,4 +104,5 @@ public class rule extends JFrame {
 		}
 		return 0;
 	}
+	
 }
