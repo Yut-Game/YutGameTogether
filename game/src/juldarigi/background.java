@@ -81,13 +81,13 @@ public class background extends JFrame implements ActionListener{
 		//기본 레이아웃 구성
 		upPanel.setLayout(null);
 		upPanel.setBounds(10, 10, 865, 150);
-		upPanel.setBackground(Color.decode("#DFEEFF"));
+		upPanel.setBackground(Color.decode("#F5F2DF"));
 		gamePanel.setLayout(null);
 		gamePanel.setBounds(10, 160, 865, 400);
 		gamePanel.setBackground(Color.WHITE);
 		underPanel.setLayout(null);
 		underPanel.setBounds(10, 560, 865, 190);
-		underPanel.setBackground(Color.decode("#DFEEFF"));
+		underPanel.setBackground(Color.decode("#F5F2DF"));
 		
 		//버튼
 		pullBtn.setBackground(new Color(255, 255, 0));
@@ -106,10 +106,10 @@ public class background extends JFrame implements ActionListener{
 		
 		
 		//타이머
-		timeComment.setBounds(410, 40,timer_width, 50);
+		timeComment.setBounds(400, 40,timer_width, 50);
 		upPanel.add(timeComment);
 		timeBar.setIcon(timerImg);
-		timeBar.setBounds(230,80,390, 50);
+		timeBar.setBounds(238,80,390, 50);
 		upPanel.add(timeBar);
 
 		
