@@ -48,6 +48,10 @@ public class PlayGame {
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
 		}
+		// ·£´ý ¹Ì´Ï°ÔÀÓ ÁÂÇ¥ ÁöÁ¤
+		int gamePoint;
+		
+		
 		piece = new MovePiece(rightA, yutBoard);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
