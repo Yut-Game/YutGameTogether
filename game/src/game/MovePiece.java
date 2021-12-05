@@ -120,6 +120,8 @@ public class MovePiece {
       yutBoard.add(btn);
       hmMove = 0;
       PlayGame.throwBtn.setEnabled(true);
+		yutBoard.revalidate();
+//		yutBoard.repaint();
    }
 
    public static void resetPiece(int i) {

@@ -52,8 +52,7 @@ public class PlayGame {
 		}
 		// 랜덤 미니게임 좌표 지정
 		int gamePoint;
-		
-		
+
 		piece = new MovePiece(rightA, yutBoard);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
@@ -100,7 +99,8 @@ public class PlayGame {
 				}
 				p1.setFinishPiece(p1.getFinishPiece() + p1P[pN].getCarry());
 				p1.setIngPiece((p1.getIngPiece()) - p1P[pN].getCarry());
-
+				int f = finishGame();
+				if(f == 1)System.exit(0);
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();
@@ -135,7 +135,7 @@ public class PlayGame {
 
 			location = checking(location, move);
 			if (location == -2) {
-
+				
 				System.out.println("말 끝");
 				for (int i = 0; i < 3; i++) {
 					if (p2P[i].getChangeNum() == pN) {
@@ -144,7 +144,8 @@ public class PlayGame {
 				}
 				p2.setFinishPiece(p2.getFinishPiece() + p2P[pN].getCarry());
 				p2.setIngPiece((p2.getIngPiece()) - p2P[pN].getCarry());
-
+				int f = finishGame();
+				if(f == 1)System.exit(0);
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();
@@ -182,7 +183,6 @@ public class PlayGame {
 			comment.setText("한 번 더 던지세요");
 			rightA.add(comment);
 		}
-		repaintPiece();
 		playerState();
 		return new int[] { x, y };
 	}
@@ -251,7 +251,8 @@ public class PlayGame {
 				if (p2P[i].getLocation() == loc) {
 					if (p2P[i].getState() == 1)
 						continue;
-					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
+					if (p1P[i].getChangeNum() != p1P[i].getpNum())
+						continue;
 					p2.setIngPiece(p2.getIngPiece() - p2P[i].getCarry());
 					p2.setReadyPiece(p2.getReadyPiece() + p2P[i].getCarry());
 					System.out.println(" 2 잡힘");
@@ -282,7 +283,8 @@ public class PlayGame {
 				if (p1P[i].getLocation() == loc) {
 					if (p1P[i].getState() == 1)
 						continue;
-					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
+					if (p1P[i].getChangeNum() != p1P[i].getpNum())
+						continue;
 					p1.setIngPiece(p1.getIngPiece() - p1P[i].getCarry());
 					p1.setReadyPiece(p1.getReadyPiece() + p1P[i].getCarry());
 					System.out.println(" 1 잡힘");
@@ -372,21 +374,30 @@ public class PlayGame {
 
 		return 0;
 	}
-
-	public static void repaintPiece() {
-		int[][] p = new int[6][6];
-		for (int i = 0; i < 3; i++) {
-			p[i][0] = p1P[i].getX();
-			p[i][1] = p1P[i].getY();
-			System.out.println("X : " + p[i][0] + " Y : " + p[i][1]);
-		}
-		for (int i = 0; i < 3; i++) {
-			p[i+3][0] = p2P[i].getX();
-			p[i+3][1] = p2P[i].getY();
-			System.out.println("X : " + p[i+3][0] + " Y : " + p[i+3][1]);
+	public static int finishGame() {
+		if(nowTurn == 1) {
+			int finish = p1.getFinishPiece();
+			if(finish == 3) {
+				JOptionPane.showMessageDialog(null,
+		                "플레이어 1이 승리했습니다.",
+		                "승리",
+		                JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+		    }
 			
 		}
-		
+		else {
+			int finish = p2.getFinishPiece();
+			if(finish == 3) {
+				JOptionPane.showMessageDialog(null,
+		                "플레이어 2가 승리했습니다.",
+		                "승리",
+		                JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+		    }
+			
+		}
+		return 0;
 	}
 
 }
