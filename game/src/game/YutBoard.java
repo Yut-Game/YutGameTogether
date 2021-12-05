@@ -46,6 +46,10 @@ public class YutBoard extends JFrame {
 	private JLabel userTwoProgress;
 	// (우측) 코멘트 ** 추가
 	private JLabel comment;
+	// (우측) 사용자1 상태 ** 추가
+	private JLabel userOnePiece;
+	// (우측) 사용자2 상태 ** 추가
+	private JLabel userTwoPiece;
 	// (우측) 윷던지기 버튼
 	private JButton throwYut;
 
@@ -79,7 +83,11 @@ public class YutBoard extends JFrame {
 		userTwoProgress = new JLabel("사용자 2 남은 말 수 표시");
 		// (우측) 말 이동 선택지 버튼
 		comment = new JLabel("코멘트");
-
+		// (우측) 사용자1 상태
+		userOnePiece = new JLabel("사용자1 말 상태");
+		// (우측) 사용자2 상태
+		userTwoPiece = new JLabel("사용자2 말 상태");
+		
 		// (레이아웃 구성) 윷놀이판, 윷 배치
 		yutBoardPanel.setLayout(null);
 		yutBoardPanel.setBounds(10, 10, BOARD_WIDTH, BOARD_HEIGHT);
@@ -93,10 +101,14 @@ public class YutBoard extends JFrame {
 		userOneProgress.setBounds(80, 10, 150, 50);
 		userTwoProgress.setBounds(80, 110, 150, 50);
 		comment.setBounds(80, 200, 150, 50);
+		userOnePiece.setBounds(2, 550, 300, 50);
+		userTwoPiece.setBounds(2, 600, 300, 50);
 		preYutArea.setBounds(95, 500, 200, 90);
 		rightArea.add(userOneProgress);
 		rightArea.add(userTwoProgress);
 		rightArea.add(comment);
+		rightArea.add(userOnePiece);
+		rightArea.add(userTwoPiece);
 		rightArea.add(preYutArea);
 		YutPanel.add(yutArea);
 
@@ -149,6 +161,12 @@ public class YutBoard extends JFrame {
 	}
 	public JLabel getComment() {
 		return comment;
+	}
+	public JLabel getOnePiece() {
+		return userOnePiece;
+	}
+	public JLabel getTwoPiece() {
+		return userTwoPiece;
 	}
 	public JButton getThrowBtn() {
 		return throwYut;
