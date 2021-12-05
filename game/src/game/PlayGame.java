@@ -66,6 +66,7 @@ public class PlayGame {
 			if (state == -1)
 				p1P[pN].setState(0);
 
+			
 			location = p1P[pN].getLocation();
 			location = checking(location, move);
 			if(location == -2) {
@@ -88,13 +89,23 @@ public class PlayGame {
 			location += move;
 			p2P[pN].setLocation(location);
 		}
-
+		catchOp(location);
 		System.out.println("location + move : " + location);
-		// 이동한 번호가 큰 원일 때 등 조건 처리
+		
 		int x = point.points[location].getX();
 		int y = point.points[location].getY();
-		turn();
-		turnComment();
+		
+		// 윷, 모일 때 한 번 더 던지기
+		if(move != 5 && move != 4) {
+			turn();
+			turnComment();
+		}
+		else {
+			comment.setText("한 번 더 던지세요");
+			rightA.add(comment);
+		}
+		
+		
 		return new int[] { x, y };
 	}
 
@@ -131,5 +142,32 @@ public class PlayGame {
 		if(finish == 1) location = -2;
 		
 		return location;
+	}
+	
+	public static int catchOp(int loc) {
+		if(nowTurn == 1) {
+			for(int i = 0; i < 3; i++) {
+				if(p2P[i].getLocation() == loc) {
+					System.out.println("잡힘");
+					p2P[i].setLocation(0);
+					p2P[i].setState(-1);
+					piece.resetPiece(i);
+					return 1;
+				}
+			}
+		}
+		else {
+			for(int i = 0; i < 3; i++) {
+				if(p1P[i].getLocation() == loc) {
+					System.out.println("잡힘");
+					p1P[i].setLocation(0);
+					p1P[i].setState(-1);
+					piece.resetPiece(i+3);
+					return 1;
+				}
+			}
+		}
+		
+		return 0;
 	}
 }
