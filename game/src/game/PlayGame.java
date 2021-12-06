@@ -18,6 +18,7 @@ public class PlayGame {
 
 	static YutBoard board;
 	static JPanel rightA;
+	static JFrame boardFrame;
 	static JPanel yutBoard;
 	static JLabel comment;
 	static JLabel player1;
@@ -41,11 +42,11 @@ public class PlayGame {
 		board = new YutBoard();
 		rightA = board.getRightArea();
 		yutBoard = board.getYutBoard();
+		boardFrame = board.getBoard();
 		comment = board.getComment();
 		throwBtn = board.getThrowBtn();
 		player1 = board.getOnePiece();
 		player2 = board.getTwoPiece();
-
 		// ÁÂÇ¥ Á¶Á¤ ( btn size 30 - 30 )
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
@@ -63,19 +64,21 @@ public class PlayGame {
 		
 		
 		
+		int gamePoint;
+
 		piece = new MovePiece(rightA, yutBoard);
 		for (int i = 0; i < 3; i++) {
 			p1P[i] = new Piece(1, i, 0);
 			p2P[i] = new Piece(2, i, 0);
-			p1P[i].setY(65);
-			p2P[i].setY(155);
+			p1P[i].setY(75);
+			p2P[i].setY(165);
 		}
-		p1P[0].setX(65);
-		p1P[1].setX(135);
-		p1P[2].setX(190);
-		p2P[0].setX(65);
-		p2P[1].setX(135);
-		p2P[2].setX(190);
+		p1P[0].setX(650);
+		p1P[1].setX(705);
+		p1P[2].setX(760);
+		p2P[0].setX(650);
+		p2P[1].setX(705);
+		p2P[2].setX(760);
 
 		piece.createBtn();
 		piece.clickBtn();
@@ -110,7 +113,8 @@ public class PlayGame {
 				}
 				p1.setFinishPiece(p1.getFinishPiece() + p1P[pN].getCarry());
 				p1.setIngPiece((p1.getIngPiece()) - p1P[pN].getCarry());
-
+				int f = finishGame();
+				if(f == 1)System.exit(0);
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();
@@ -145,7 +149,7 @@ public class PlayGame {
 
 			location = checking(location, move);
 			if (location == -2) {
-
+				
 				System.out.println("¸» ³¡");
 				for (int i = 0; i < 3; i++) {
 					if (p2P[i].getChangeNum() == pN) {
@@ -154,7 +158,8 @@ public class PlayGame {
 				}
 				p2.setFinishPiece(p2.getFinishPiece() + p2P[pN].getCarry());
 				p2.setIngPiece((p2.getIngPiece()) - p2P[pN].getCarry());
-
+				int f = finishGame();
+				if(f == 1)System.exit(0);
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();
@@ -272,7 +277,8 @@ public class PlayGame {
 				if (p2P[i].getLocation() == loc) {
 					if (p2P[i].getState() == 1)
 						continue;
-					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
+					if (p1P[i].getChangeNum() != p1P[i].getpNum())
+						continue;
 					p2.setIngPiece(p2.getIngPiece() - p2P[i].getCarry());
 					p2.setReadyPiece(p2.getReadyPiece() + p2P[i].getCarry());
 					System.out.println(" 2 ÀâÈû");
@@ -303,7 +309,8 @@ public class PlayGame {
 				if (p1P[i].getLocation() == loc) {
 					if (p1P[i].getState() == 1)
 						continue;
-					if(p1P[i].getChangeNum() != p1P[i].getpNum()) continue;
+					if (p1P[i].getChangeNum() != p1P[i].getpNum())
+						continue;
 					p1.setIngPiece(p1.getIngPiece() - p1P[i].getCarry());
 					p1.setReadyPiece(p1.getReadyPiece() + p1P[i].getCarry());
 					System.out.println(" 1 ÀâÈû");
@@ -393,19 +400,30 @@ public class PlayGame {
 
 		return 0;
 	}
-
-	public static void repaintPiece() {
-		for (int i = 0; i < 3; i++) {
-			int x = p1P[i].getX();
-			int y = p1P[i].getY();
-			int p = p1P[i].getState() < 0 ? 1 : 0;
-			piece.rePaint(i, x, y, p);
+	public static int finishGame() {
+		if(nowTurn == 1) {
+			int finish = p1.getFinishPiece();
+			if(finish == 3) {
+				JOptionPane.showMessageDialog(null,
+		                "ÇÃ·¹ÀÌ¾î 1ÀÌ ½Â¸®Çß½À´Ï´Ù.",
+		                "½Â¸®",
+		                JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+		    }
+			
 		}
-		for (int i = 0; i < 3; i++) {
-			int x = p2P[i].getX();
-			int y = p2P[i].getY();
-			int p = p2P[i].getState() < 0 ? 1 : 0;
-			piece.rePaint(i, x, y, p);
+		else {
+			int finish = p2.getFinishPiece();
+			if(finish == 3) {
+				JOptionPane.showMessageDialog(null,
+		                "ÇÃ·¹ÀÌ¾î 2°¡ ½Â¸®Çß½À´Ï´Ù.",
+		                "½Â¸®",
+		                JOptionPane.INFORMATION_MESSAGE);
+				return 1;
+		    }
+			
 		}
+		return 0;
 	}
+
 }

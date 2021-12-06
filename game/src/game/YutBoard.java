@@ -192,7 +192,9 @@ public class YutBoard extends JFrame {
 	public JPanel getRightArea() {
 		return rightArea;
 	}
-
+	public JFrame getBoard() {
+		return BoardFrame;
+	}
 	public JPanel getYutBoard() {
 		return yutBoardPanel;
 	}
