@@ -2,22 +2,29 @@ package archeryMatching;
 
 import java.awt.Button;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.time.LocalTime;
+import java.time.temporal.ChronoField;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
+import java.util.Timer;
 
 import game.MovePiece;
 import game.PlayGame;
+import game.YutBoard;
 import game.rule;
 
 public class background extends JFrame implements ActionListener{
@@ -34,16 +41,16 @@ public class background extends JFrame implements ActionListener{
 	public static int X;
 	
 	//최상위 jFrame
-	private JFrame BoardFrame;	
+	public static JFrame BoardFrame;	
 	//게임 설명 jPanel
 	private JPanel explainPanel; 
 	
 	//상단 영역 jPanel
-	private JPanel upPanel;
+	private static JPanel upPanel;
 	//중앙 영역 jPanel
-	private JPanel gamePanel;
+	private static JPanel gamePanel;
 	//하단 영역 jPanel
-	private JPanel underPanel;
+	private static JPanel underPanel;
 	
 	//이미지 영역 jLabel
 	public static JLabel imgArea;
@@ -59,6 +66,66 @@ public class background extends JFrame implements ActionListener{
 	public static Button btn2;
 	public static Button btn3;
 	
+	//게임 진행 요소
+	static int answer;
+	private static int point = 0;
+	static int count = 0;
+	
+	
+	public static void endGame() {
+		if(point>15) {
+			JOptionPane.showMessageDialog(null, "점수 : "+point+"점\n게임승리!");
+		} else {
+			JOptionPane.showMessageDialog(null, "점수 : "+point+"점\n게임오버!");
+		}
+	}
+	
+	public static void start() {
+		// TODO Auto-generated method stub
+		new archeryMatching.background();
+		
+		btn1.setVisible(true);
+		btn2.setVisible(true);
+		btn3.setVisible(true);
+		upPanel.setVisible(true);
+		gamePanel.setVisible(true);
+		underPanel.setVisible(true);
+		BoardFrame.setVisible(true);
+		
+	
+		
+		Timer timer = new java.util.Timer();
+        TimerTask task = new TimerTask() {
+
+           @Override
+           public void run() {
+              if(count<=55) {
+                 System.out.println(count);
+                 count++;
+                 if(count%3==0) answer = archeryMatching.function.moveGreenLight();
+                 archeryMatching.function.setTimer();
+              }
+              else {
+                 timer.cancel();
+                 btn1.setEnabled(false);
+                 btn2.setEnabled(false);
+                 btn3.setEnabled(false);
+                 endGame();
+                 BoardFrame.dispose();
+                 YutBoard.BoardFrame.setVisible(true);
+              }
+           }
+        };
+        timer.scheduleAtFixedRate(task, 1000, 330);
+		
+	}
+	
+	public static void addPoint() {
+		point++;
+		archeryMatching.background.timeComment.setText("POINT : "+point);
+	}
+	
+	
 	public background() {
 		X = 110;
 		//image
@@ -67,6 +134,7 @@ public class background extends JFrame implements ActionListener{
 		ImageIcon greenLight = new ImageIcon(background.class.getResource("../img/greenLight.png"));
 		//최상위 jFrame 선언
 		BoardFrame = new JFrame();
+		Container c1 = BoardFrame.getContentPane();
 		BoardFrame.setTitle("과녘맞추기");
 		//게임 화면 jPanel
 		gamePanel = new JPanel();
@@ -84,39 +152,45 @@ public class background extends JFrame implements ActionListener{
 		btn3 = new Button();
 		
 		//기본 레이아웃 구성
+		upPanel.setVisible(false);
 		upPanel.setLayout(null);
 		upPanel.setBounds(10, 10, 865, 150);
 		upPanel.setBackground(Color.decode("#F5F2DF"));
+		gamePanel.setVisible(false);
 		gamePanel.setLayout(null);
 		gamePanel.setBounds(10, 160, 865, 400);
 		gamePanel.setBackground(Color.WHITE);
+		underPanel.setVisible(false);
 		underPanel.setLayout(null);
 		underPanel.setBounds(10, 560, 865, 190);
 		underPanel.setBackground(Color.decode("#F5F2DF"));
 		
 		//버튼
+		btn1.setVisible(false);
 		btn1.setBounds(162, 50, 100, 100);
 		btn1.addActionListener(e -> {
-			if(execute.answer==1) execute.addPoint();
+			if(answer==1) addPoint();
 		});
 		btn1.setFocusable(true);
 		underPanel.add(btn1);
 		
 		//버튼
+		btn2.setVisible(false);
 		btn2.setBounds(383, 50, 100, 100);
 		btn2.addActionListener(e -> {
-			if(execute.answer==2) execute.addPoint();
+			if(answer==2) addPoint();
 		});
 		btn2.setFocusable(true);
 		underPanel.add(btn2);
 		
 		//버튼
+		btn3.setVisible(false);
 		btn3.setBounds(604, 50, 100, 100);
 		btn3.addActionListener(e -> {
-			if(execute.answer==3) execute.addPoint();
+			if(answer==3) addPoint();
 		});
 		btn3.setFocusable(true);
-		underPanel.add(btn3);
+
 		
 		//이미지
 		imgArea.setBounds(0, 0, 865, 400);
@@ -124,16 +198,15 @@ public class background extends JFrame implements ActionListener{
 		//(179,0) (398, 0) (617,0)
 		imgGreenArea.setBounds(617, 0,100,100);
 		imgGreenArea.setIcon(greenLight);
-		gamePanel.add(imgGreenArea);
-		gamePanel.add(imgArea);
+
 
 		
 		//타이머
 		timeComment.setBounds(400, 40,timer_width, 50);
-		upPanel.add(timeComment);
+
 		timeBar.setIcon(timerImg);
 		timeBar.setBounds(238,80,390, 50);
-		upPanel.add(timeBar);
+		
 
 		
 		//최상위 jFrame 기본 설정
@@ -142,11 +215,19 @@ public class background extends JFrame implements ActionListener{
 		BoardFrame.setLocationRelativeTo(null);
 		BoardFrame.setSize(WIDTH, HEIGHT);
 		BoardFrame.setResizable(false);
-		BoardFrame.setVisible(true);
+		BoardFrame.setVisible(false);
 		setLocationRelativeTo(null);
-		BoardFrame.add(gamePanel);
-		BoardFrame.add(upPanel);
-		BoardFrame.add(underPanel);
+		underPanel.add(btn3);
+		gamePanel.add(imgGreenArea);
+		gamePanel.add(imgArea);
+		upPanel.add(timeComment);
+		upPanel.add(timeBar);
+		
+		c1.add(underPanel);
+		c1.add(gamePanel);
+		c1.add(upPanel);
+		
+		
 	}
 
 	@Override

@@ -19,6 +19,7 @@ public class MovePiece {
 	private static JButton p2P1;
 	private static JButton p2P2;
 
+	
 	static int piece = -1;
 	static int hmMove = 0;
 	static PlayGame obj = new PlayGame();

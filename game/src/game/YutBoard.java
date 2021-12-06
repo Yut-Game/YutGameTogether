@@ -52,15 +52,27 @@ public class YutBoard extends JFrame {
 	private JLabel userTwoPiece;
 	// (우측) 윷던지기 버튼
 	private JButton throwYut;
+	// (우측) 미니게임 버튼
+	public static JButton moveMiniGame;
 
 	// (윷 영역) 현재 윷 
 	private ImageIcon yut;
 	// (윷 영역) 이전 윷 
 	private ImageIcon preYut;
 	
+	public static int gameType;
+	
 
 	public YutBoard() {
+		//미니게임
+		final JPanel parentPanel = new JPanel();
+		parentPanel.setLayout(new BorderLayout(10, 10));
+		final JPanel archeryPanel = new JPanel();
+		final JPanel juldarigiPanel = new JPanel();
+		
+		
 		BoardFrame = new JFrame();
+		Container c1 = BoardFrame.getContentPane();
 		BoardFrame.setTitle("Card Of Yut");
 		// (좌측) 윷놀이판 영역
 		yutBoardPanel = new JPanel() {
@@ -130,6 +142,31 @@ public class YutBoard extends JFrame {
 		});
 		throwYut.setBounds(100, 450, 100, 30);
 		rightArea.add(throwYut);
+		// 미니게임 버튼
+		moveMiniGame = new JButton("미니게임");
+		moveMiniGame.setEnabled(false);
+		moveMiniGame.setBackground(new Color(255, 255, 0));
+		moveMiniGame.addActionListener(e -> {
+			System.out.println("버튼 눌림");
+			if(gameType==1) {
+				BoardFrame.setVisible(false);
+				try{
+					Thread.sleep(2000);
+				} catch(Exception e1){}
+				new juldarigi.background().start();
+				YutBoard.moveMiniGame.setEnabled(true);
+			} else if(gameType==2) {
+				BoardFrame.setVisible(false);
+				try{
+					Thread.sleep(2000);
+				} catch(Exception e1){}
+				new archeryMatching.background().start();
+				YutBoard.moveMiniGame.setEnabled(true);
+			}
+
+		});
+		moveMiniGame.setBounds(100, 500, 100, 30);
+		rightArea.add(moveMiniGame);
 
 		// 최상위 jFrame 기본 설정
 		BoardFrame.setLayout(null);
@@ -138,9 +175,9 @@ public class YutBoard extends JFrame {
 		BoardFrame.setSize(WIDTH, HEIGHT);
 		BoardFrame.setResizable(false);
 		BoardFrame.setVisible(true);
-		BoardFrame.add(yutBoardPanel);
-		BoardFrame.add(YutPanel);
-		BoardFrame.add(rightArea);
+		c1.add(yutBoardPanel);
+		c1.add(YutPanel);
+		c1.add(rightArea);
 	}
 
 	public void mgps() {

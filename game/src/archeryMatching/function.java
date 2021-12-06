@@ -14,7 +14,7 @@ public class function {
 		return location+1;
 	}
 	public static void setTimer() {
-		archeryMatching.background.timer_width-=1;
+		archeryMatching.background.timer_width-=6.3;
 		archeryMatching.background.timeBar.setBounds(238, 80, archeryMatching.background.timer_width, 50);
 	}
 }

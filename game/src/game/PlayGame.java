@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -23,6 +24,7 @@ public class PlayGame {
 	static JLabel player2;
 	static JButton throwBtn;
 	static int nowTurn = 1;
+	
 
 	static YutBoardPoint point = new YutBoardPoint();
 	static rule rule = new rule();
@@ -49,7 +51,16 @@ public class PlayGame {
 			YutBoardPoint.points[i].addCordinate(-11, -10);
 		}
 		// 랜덤 미니게임 좌표 지정
-		int gamePoint;
+		for(int i=0;i< YutBoardPoint.points.length-10;i++) {
+			int gamePoint = (int)(Math.random()*YutBoardPoint.points.length);
+			int gameType = (int)(Math.random()*3)+1; //0:none,1:jul,2:archery,3:else
+			YutBoardPoint.points[gamePoint].setMinigame(gameType); 
+		}
+		for (int i = 0; i < YutBoardPoint.points.length; i++) {
+			System.out.println(i+" : "+YutBoardPoint.points[i].getMinigame());
+		}
+		
+		
 		
 		
 		piece = new MovePiece(rightA, yutBoard);
@@ -89,6 +100,7 @@ public class PlayGame {
 
 			location = p1P[pN].getLocation();
 			location = checking(location, move);
+			
 			if (location == -2) {
 				System.out.println("말 끝");
 				for (int i = 0; i < 3; i++) {
@@ -168,6 +180,18 @@ public class PlayGame {
 		int c = catchOp(location);
 
 		System.out.println("location + move : " + location);
+		System.out.println("location : "+location);
+		// 미니게임 영역 확인
+		if(YutBoardPoint.points[location].getMinigame()!=0) {
+			System.out.println("미니게임 존재함!");
+			YutBoard.moveMiniGame.setEnabled(true);
+			switch(YutBoardPoint.points[location].getMinigame()) {
+			case 1 :
+				board.gameType = 1;
+			case 2 :
+				board.gameType = 2;
+			}
+		}
 
 		int x = point.points[location].getX();
 		int y = point.points[location].getY();
