@@ -53,10 +53,9 @@ public class PlayGame {
 		}
 		// 랜덤 미니게임 좌표 지정
 		for(int i=0;i< YutBoardPoint.points.length-10;i++) {
-			int gamePoint = (int)(Math.random()*YutBoardPoint.points.length);
-			int gameType = (int)(Math.random()*3)+1; //0:none,1:jul,2:archery,3:else
-			YutBoardPoint.points[gamePoint].setMinigame(gameType); 
+			YutBoardPoint.points[i].setMinigame(0); 
 		}
+		YutBoardPoint.points[4].setMinigame(2); 
 		for (int i = 0; i < YutBoardPoint.points.length; i++) {
 			System.out.println(i+" : "+YutBoardPoint.points[i].getMinigame());
 		}
@@ -90,6 +89,11 @@ public class PlayGame {
 
 	public static int[] pieceState(int pN, int move) {
 		int location = 0;
+		int fi = finishGame();
+		if(fi == 1) {
+			YutBoard.BoardFrame.dispose();
+			new EndingGame();
+		}
 		int finish = 0;
 		// 말 상태 받아오기
 		if (nowTurn == 1) {
@@ -114,7 +118,11 @@ public class PlayGame {
 				p1.setFinishPiece(p1.getFinishPiece() + p1P[pN].getCarry());
 				p1.setIngPiece((p1.getIngPiece()) - p1P[pN].getCarry());
 				int f = finishGame();
-				if(f == 1)System.exit(0);
+		           if(f == 1) {
+		               dbConn.input(true, false, 1);
+		               YutBoard.BoardFrame.dispose();
+		               new EndingGame();
+		            }
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();
@@ -159,7 +167,11 @@ public class PlayGame {
 				p2.setFinishPiece(p2.getFinishPiece() + p2P[pN].getCarry());
 				p2.setIngPiece((p2.getIngPiece()) - p2P[pN].getCarry());
 				int f = finishGame();
-				if(f == 1)System.exit(0);
+				if(f == 1) {
+		               dbConn.input(true, false, 1);
+		               YutBoard.BoardFrame.dispose();
+		               new EndingGame();
+		            }
 				int c = catchOp(location);
 				if (c == 0) {
 					turn();

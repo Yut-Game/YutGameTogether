@@ -4,7 +4,7 @@ public class function {
 	public static void moveImage(int value) {
 		//사용자(오른쪽으로 이동)
 		if(value==0) {
-			background.X+=3;
+			background.X+=1;
 		}
 		//로봇(왼쪽으로 이동)
 		else if(value == 1) {

@@ -212,7 +212,6 @@ public class background extends JFrame implements ActionListener{
 		//최상위 jFrame 기본 설정
 		BoardFrame.setLayout(null);
 		BoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		BoardFrame.setLocationRelativeTo(null);
 		BoardFrame.setSize(WIDTH, HEIGHT);
 		BoardFrame.setResizable(false);
 		BoardFrame.setVisible(false);

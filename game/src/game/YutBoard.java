@@ -153,7 +153,7 @@ public class YutBoard extends JFrame {
 				try{
 					Thread.sleep(2000);
 				} catch(Exception e1){}
-				new juldarigi.background().start();
+				//new juldarigi.background().start();
 				YutBoard.moveMiniGame.setEnabled(true);
 			} else if(gameType==2) {
 				BoardFrame.setVisible(false);
@@ -171,7 +171,6 @@ public class YutBoard extends JFrame {
 		// 최상위 jFrame 기본 설정
 		BoardFrame.setLayout(null);
 		BoardFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		BoardFrame.setLocationRelativeTo(null);
 		BoardFrame.setSize(WIDTH, HEIGHT);
 		BoardFrame.setResizable(false);
 		BoardFrame.setVisible(true);
